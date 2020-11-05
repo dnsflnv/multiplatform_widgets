@@ -7,8 +7,41 @@ import 'dart:io' show Platform;
 import 'package:flutter/services.dart';
 import 'package:multiplatform_widgets/cupertino_radio_choice.dart';
 
-// ignore: todo
-//TODO: One detection of targetPlatform on start.
+/// Scaffold
+class MpScaffold extends StatelessWidget {
+  final PreferredSizeWidget appBar;
+  final Widget body;
+
+  MpScaffold({this.appBar, @required this.body});
+
+  @override
+  Widget build(BuildContext context) {
+    if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
+      return CupertinoPageScaffold(
+        navigationBar: this.appBar,
+        child: this.body,
+      );
+    } else {
+      return Scaffold(
+        appBar: this.appBar,
+        body: this.body,
+      );
+    }
+  }
+}
+
+/// Page router.
+PageRoute mpPageRoute({Widget Function(BuildContext) builder}) {
+  if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
+    return CupertinoPageRoute(
+      builder: builder,
+    );
+  } else {
+    return MaterialPageRoute(
+      builder: builder,
+    );
+  }
+}
 
 class MpButton extends StatelessWidget {
   MpButton({this.label, this.onPressed});
@@ -154,41 +187,6 @@ Widget mpTextField(
   }
 }
 
-// Text FORM field
-// Widget mpTextFormField({
-//   BuildContext context,
-//   TextEditingController controller,
-//   String labelText,
-//   List<TextInputFormatter> inputFormatters,
-//   String Function(String) validator,
-// }) {
-//   if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: <Widget>[
-//         Text(labelText),
-//         SizedBox(
-//           height: 8.0,
-//         ),
-//         CupertinoTextField(
-//           controller: controller,
-//           inputFormatters: inputFormatters,
-//         ),
-//       ],
-//     );
-//   } else {
-//     return TextFormField(
-//       controller: controller,
-//       decoration: InputDecoration(
-//         border: OutlineInputBorder(),
-//         labelText: labelText,
-//       ),
-//       inputFormatters: inputFormatters,
-//       validator: validator,
-//     );
-//   }
-// }
-
 /// AppBar.
 PreferredSizeWidget mpAppBar(
     {@required Widget title, Widget button, BuildContext context}) {
@@ -237,35 +235,6 @@ Widget mpSwitch(
         onChanged: onChanged,
       ),
       onTap: onTap,
-    );
-  }
-}
-
-/// Scaffold
-Widget mpScaffold(
-    {BuildContext context, PreferredSizeWidget appBar, @required Widget body}) {
-  if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
-    return CupertinoPageScaffold(
-      navigationBar: appBar,
-      child: body,
-    );
-  } else {
-    return Scaffold(
-      appBar: appBar,
-      body: body,
-    );
-  }
-}
-
-/// Page router.
-PageRoute mpPageRoute({Widget Function(BuildContext) builder}) {
-  if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
-    return CupertinoPageRoute(
-      builder: builder,
-    );
-  } else {
-    return MaterialPageRoute(
-      builder: builder,
     );
   }
 }
