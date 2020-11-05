@@ -1,6 +1,6 @@
-## 0.0.2 - 2020-11-05
+## 0.1.0 - 2020-11-05
 
-- MpScaffold class.
+- Functions to classes where possible.
 
 ## 0.0.1 - 2020-11-05
 

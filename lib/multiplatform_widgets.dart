@@ -7,7 +7,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/services.dart';
 import 'package:multiplatform_widgets/cupertino_radio_choice.dart';
 
-/// Scaffold
+/// Scaffold.
 class MpScaffold extends StatelessWidget {
   final PreferredSizeWidget appBar;
   final Widget body;
@@ -43,6 +43,38 @@ PageRoute mpPageRoute({Widget Function(BuildContext) builder}) {
   }
 }
 
+/// AppBar.
+class MpAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final Widget title;
+  final Widget button;
+  @override
+  final Size preferredSize;
+
+  MpAppBar({
+    this.title,
+    this.button,
+    this.preferredSize = const Size.fromHeight(56.0),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
+      return CupertinoNavigationBar(
+        middle: title,
+        trailing: (button != null) ? button : SizedBox(),
+      );
+    } else {
+      return AppBar(
+        title: title,
+        actions: [
+          (button != null) ? button : SizedBox(),
+        ],
+      );
+    }
+  }
+}
+
+/// Button.
 class MpButton extends StatelessWidget {
   MpButton({this.label, this.onPressed});
   final String label;
@@ -50,12 +82,12 @@ class MpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!kIsWeb && (Platform.isMacOS || Platform.isIOS))
+    if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
       return CupertinoButton.filled(
         child: Text(label),
         onPressed: onPressed,
       );
-    else
+    } else {
       return RaisedButton(
         child: Text(
           label,
@@ -63,6 +95,30 @@ class MpButton extends StatelessWidget {
         ),
         onPressed: onPressed,
       );
+    }
+  }
+}
+
+/// Link button.
+class MpLinkButton extends StatelessWidget {
+  MpLinkButton({this.label, this.onPressed});
+  final String label;
+  final Function onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
+      return CupertinoButton(
+        padding: EdgeInsetsDirectional.zero,
+        child: Text(label),
+        onPressed: onPressed,
+      );
+    } else {
+      return FlatButton(
+        child: Text(label),
+        onPressed: onPressed,
+      );
+    }
   }
 }
 
@@ -85,7 +141,7 @@ class RoundIconButton extends StatelessWidget {
         child: Icon(icon),
         onPressed: onPressed,
       );
-    } else
+    } else {
       return RawMaterialButton(
         child: Icon(icon),
         onPressed: onPressed,
@@ -97,149 +153,132 @@ class RoundIconButton extends StatelessWidget {
         shape: CircleBorder(),
         fillColor: this.fillColor,
       );
+    }
   }
 }
 
-/// Button.
-Widget mpButton({BuildContext context, String label, Function onPressed}) {
-  if (!kIsWeb && (Platform.isMacOS || Platform.isIOS))
-    return CupertinoButton.filled(
-      child: Text(label),
-      onPressed: onPressed,
-    );
-  else
-    return RaisedButton(
-      child: Text(
-        label,
-        style: TextStyle(color: Colors.white),
-      ),
-      onPressed: onPressed,
-    );
-}
+/// FlatButton.
+class MpFlatButton extends StatelessWidget {
+  final String label;
+  final Function onPressed;
+  final EdgeInsetsGeometry padding;
+  final Widget child;
 
-Widget mpLinkButton({BuildContext context, String label, Function onPressed}) {
-  if (!kIsWeb && (Platform.isMacOS || Platform.isIOS))
-    return CupertinoButton(
-      padding: EdgeInsetsDirectional.zero,
-      child: Text(label),
-      onPressed: onPressed,
-    );
-  else
-    return FlatButton(
-      child: Text(label),
-      onPressed: onPressed,
-    );
-}
+  MpFlatButton({
+    this.label,
+    this.onPressed,
+    this.padding,
+    this.child,
+  });
 
-/// FlatButton
-Widget mpFlatButton({
-  BuildContext context,
-  EdgeInsetsGeometry padding,
-  Function onPressed,
-  Widget child,
-}) {
-  if (!kIsWeb && (Platform.isMacOS || Platform.isIOS))
-    return CupertinoButton(
-      padding: padding,
-      onPressed: onPressed,
-      child: child,
-    );
-  else
-    return FlatButton(
-      padding: padding,
-      onPressed: onPressed,
-      child: child,
-    );
+  @override
+  Widget build(BuildContext context) {
+    if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
+      return CupertinoButton(
+        padding: padding,
+        onPressed: onPressed,
+        child: child,
+      );
+    } else {
+      return FlatButton(
+        padding: padding,
+        onPressed: onPressed,
+        child: child,
+      );
+    }
+  }
 }
 
 /// Text field.
-Widget mpTextField(
-    {BuildContext context,
-    @required TextEditingController controller,
-    String labelText,
-    List<TextInputFormatter> inputFormatters,
-    bool readOnly = false}) {
-  if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(labelText),
-        SizedBox(
-          height: 8.0,
-        ),
-        CupertinoTextField(
-          controller: controller,
-          inputFormatters: inputFormatters,
-          readOnly: readOnly,
-        ),
-      ],
-    );
-  } else {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: labelText,
-      ),
-      inputFormatters: inputFormatters,
-      readOnly: readOnly,
-    );
-  }
-}
+class MpTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String labelText;
+  final List<TextInputFormatter> inputFormatters;
+  final bool readOnly;
 
-/// AppBar.
-PreferredSizeWidget mpAppBar(
-    {@required Widget title, Widget button, BuildContext context}) {
-  if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
-    return CupertinoNavigationBar(
-      middle: title,
-      trailing: (button != null) ? button : SizedBox(),
-    );
-  } else
-    return AppBar(
-      title: title,
-      actions: [
-        (button != null) ? button : SizedBox(),
-      ],
-    );
-}
+  MpTextField({
+    @required this.controller,
+    this.labelText,
+    this.inputFormatters,
+    this.readOnly = false,
+  });
 
-/// Switch
-Widget mpSwitch(
-    {BuildContext context,
-    @required String title,
-    @required bool value,
-    @required ValueChanged<bool> onChanged,
-    Function onTap}) {
-  if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 4,
-          child: Text(title),
-        ),
-        Expanded(
-          flex: 1,
-          child: CupertinoSwitch(
-            value: value,
-            onChanged: onChanged,
+  @override
+  Widget build(BuildContext context) {
+    if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(labelText),
+          SizedBox(
+            height: 8.0,
           ),
+          CupertinoTextField(
+            controller: controller,
+            inputFormatters: inputFormatters,
+            readOnly: readOnly,
+          ),
+        ],
+      );
+    } else {
+      return TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: labelText,
         ),
-      ],
-    );
-  } else {
-    return ListTile(
-      title: Text(title),
-      trailing: Switch(
-        value: value,
-        onChanged: onChanged,
-      ),
-      onTap: onTap,
-    );
+        inputFormatters: inputFormatters,
+        readOnly: readOnly,
+      );
+    }
   }
 }
 
-/// For validation.
+/// Switch.
+class MpSwitch extends StatelessWidget {
+  final String title;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+  final Function onTap;
+
+  MpSwitch(
+      {@required this.title,
+      @required this.value,
+      @required this.onChanged,
+      this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
+      return Row(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Text(title),
+          ),
+          Expanded(
+            flex: 1,
+            child: CupertinoSwitch(
+              value: value,
+              onChanged: onChanged,
+            ),
+          ),
+        ],
+      );
+    } else {
+      return ListTile(
+        title: Text(title),
+        trailing: Switch(
+          value: value,
+          onChanged: onChanged,
+        ),
+        onTap: onTap,
+      );
+    }
+  }
+}
+
+/// Validation message.
 class MpValidationMessage extends StatelessWidget {
   final String message;
 
@@ -264,7 +303,7 @@ class MpValidationMessage extends StatelessWidget {
 
 /// Radio selector
 // ignore: todo
-//TODO: Refactor to dynamic amount of radios.
+//TODO: Delete it.
 Widget mpSelectFromTwo({
   BuildContext context,
   @required dynamic value1,
@@ -296,5 +335,41 @@ Widget mpSelectFromTwo({
         Text(itemText2),
       ],
     );
+  }
+}
+
+/// GroupSelect(Radio)
+/// class NativeGroupSelect<T> from native_widgets
+class MpGroupSelect<T> extends StatelessWidget {
+  final ValueChanged<T> onValueChanged;
+  final Map<T, Widget> children;
+  final T groupValue;
+
+  MpGroupSelect({
+    Key key,
+    this.onValueChanged,
+    @required this.groupValue,
+    @required this.children,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
+      return CupertinoSegmentedControl<T>(
+        children: children,
+        onValueChanged: onValueChanged,
+        groupValue: groupValue,
+      );
+    } else {
+      return Column(
+          children: children.entries
+              .map((MapEntry<T, Widget> item) => RadioListTile<T>(
+                    title: item?.value,
+                    value: item?.key,
+                    groupValue: groupValue,
+                    onChanged: onValueChanged,
+                  ))
+              .toList());
+    }
   }
 }
