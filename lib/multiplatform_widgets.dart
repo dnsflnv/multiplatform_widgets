@@ -9,7 +9,7 @@ import 'package:multiplatform_widgets/cupertino_radio_choice.dart';
 
 /// Scaffold.
 class MpScaffold extends StatelessWidget {
-  final PreferredSizeWidget appBar;
+  final Widget appBar;
   final Widget body;
 
   MpScaffold({this.appBar, @required this.body});
@@ -44,11 +44,19 @@ PageRoute mpPageRoute({Widget Function(BuildContext) builder}) {
 }
 
 /// AppBar.
-class MpAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MpAppBar extends StatelessWidget
+    implements PreferredSizeWidget, ObstructingPreferredSizeWidget {
   final Widget title;
   final Widget button;
+
   @override
   final Size preferredSize;
+
+  @override
+  bool shouldFullyObstruct(BuildContext context) {
+    final Color backgroundColor = CupertinoTheme.of(context).barBackgroundColor;
+    return backgroundColor.alpha == 0xFF;
+  }
 
   MpAppBar({
     this.title,
