@@ -144,24 +144,17 @@ class RoundIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
-      return CupertinoButton(
-        child: Icon(icon),
-        onPressed: onPressed,
-      );
-    } else {
-      return RawMaterialButton(
-        child: Icon(icon),
-        onPressed: onPressed,
-        elevation: 0.0,
-        constraints: BoxConstraints.tightFor(
-          width: 56.0,
-          height: 56.0,
-        ),
-        shape: CircleBorder(),
-        fillColor: this.fillColor,
-      );
-    }
+    return RawMaterialButton(
+      child: Icon(icon),
+      onPressed: onPressed,
+      elevation: 0.0,
+      constraints: BoxConstraints.tightFor(
+        width: 56.0,
+        height: 56.0,
+      ),
+      shape: CircleBorder(),
+      fillColor: this.fillColor,
+    );
   }
 }
 
