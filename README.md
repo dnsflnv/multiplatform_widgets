@@ -1,8 +1,17 @@
 # multiplatform_widgets
 
-Inpired by native_widgets.
-
-Multiplatform widgets for my private use.
+Simple multiplatform widgets.
 
 Used some code from [native_widgets](https://github.com/fluttercommunity/native_widgets).
 
+## Install
+```
+dependencies:
+  multiplatform_widgets:
+    git: 
+      url: git://github.com/filonov/multiplatform_widgets.git
+```
+
+## Usage
+
+See [SetsTimer repository](https://github.com/filonov/SetsTimer).
