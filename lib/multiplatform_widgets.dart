@@ -11,20 +11,27 @@ import 'package:multiplatform_widgets/cupertino_radio_choice.dart';
 class MpScaffold extends StatelessWidget {
   final Widget appBar;
   final Widget body;
+  final Widget bottomNavigationBar;
 
-  MpScaffold({this.appBar, @required this.body});
+  MpScaffold({this.appBar, @required this.body, this.bottomNavigationBar});
 
   @override
   Widget build(BuildContext context) {
     if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
       return CupertinoPageScaffold(
         navigationBar: this.appBar,
-        child: this.body,
+        child: Column(
+          children: [
+            Expanded(child: this.body),
+            if (this.bottomNavigationBar != null) this.bottomNavigationBar
+          ],
+        ),
       );
     } else {
       return Scaffold(
         appBar: this.appBar,
         body: this.body,
+        bottomNavigationBar: this.bottomNavigationBar,
       );
     }
   }
