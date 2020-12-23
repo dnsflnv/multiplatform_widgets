@@ -1,11 +1,12 @@
 library multiplatform_widgets;
 
+import 'package:cupertino_list_tile/cupertino_list_tile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/services.dart';
-import 'package:multiplatform_widgets/cupertino_radio_choice.dart';
+import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 
 /// Scaffold.
 class MpScaffold extends StatelessWidget {
@@ -322,7 +323,7 @@ Widget mpSelectFromTwo({
   @required String itemText2,
 }) {
   if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
-    return CupertinoRadioChoiceDynamic(
+    return CupertinoRadioChoice(
         choices: {value1: itemText1, value2: itemText2},
         onChange: onChanged,
         initialKeyValue: groupValue);
@@ -378,6 +379,48 @@ class MpGroupSelect<T> extends StatelessWidget {
                     onChanged: onValueChanged,
                   ))
               .toList());
+    }
+  }
+}
+
+// ListTile
+class MpListTile extends StatelessWidget {
+  final Widget leading;
+  final Widget title;
+  final Widget subtitle;
+  final Widget trailing;
+  final Function onTap;
+  final Function onLongPress;
+
+  MpListTile({
+    this.leading,
+    this.title,
+    this.subtitle,
+    this.trailing,
+    this.onTap,
+    this.onLongPress,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
+      return CupertinoListTile(
+        leading: this.leading,
+        title: this.title,
+        subtitle: this.subtitle,
+        trailing: this.trailing,
+        onTap: this.onTap,
+        onLongPress: this.onLongPress,
+      );
+    } else {
+      return ListTile(
+        leading: this.leading,
+        title: this.title,
+        subtitle: this.subtitle,
+        trailing: this.trailing,
+        onTap: this.onTap,
+        onLongPress: this.onLongPress,
+      );
     }
   }
 }

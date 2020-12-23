@@ -1,3 +1,8 @@
+## 0.4.0
+
+- Added MpListTile.
+- Contributed to https://github.com/Rodiii/flutter_cupertino_radio_choice & removed legacy code.
+
 ## 0.3.0
 
 - Added bottomNavigationBar to MpScaffold.
