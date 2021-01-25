@@ -425,7 +425,10 @@ class MpListTile extends StatelessWidget {
   }
 }
 
-Future<T> mpModalPopup<T>({BuildContext context, Widget child}) {
+Future<T> mpModalPopup<T>({
+  BuildContext context,
+  Widget child,
+}) {
   if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
     return showCupertinoModalPopup(
       context: context,
