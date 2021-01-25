@@ -424,3 +424,17 @@ class MpListTile extends StatelessWidget {
     }
   }
 }
+
+Future<T> mpModalPopup<T>(BuildContext context, Widget child) {
+  if (!kIsWeb && (Platform.isMacOS || Platform.isIOS)) {
+    return showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) => child,
+    );
+  } else {
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) => child,
+    );
+  }
+}
